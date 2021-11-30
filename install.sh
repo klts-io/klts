@@ -4,11 +4,6 @@ set -o errexit
 set -o nounset
 set -o pipefail
 
-if [[ $(uname -s) != "Linux" ]]; then
-    echo "This script is only for Linux"
-    exit 1
-fi
-
 GIT_PREFIX="https://github.com"
 CONTAINER_REGISTRY_PREFIX="ghcr.io"
 
@@ -183,6 +178,12 @@ function help() {
     echo "  --focus=${tmp//${IFS:0:1}/,} : Focus on specific step"
     echo "  --skip='' : Skip on specific step"
 }
+
+if [[ $(uname -s) != "Linux" ]]; then
+    help
+    echo "This script is only for Linux"
+    exit 1
+fi
 
 function rpm-source-template() {
     cat <<EOF
